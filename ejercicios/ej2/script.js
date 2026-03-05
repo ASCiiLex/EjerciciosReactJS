@@ -1,28 +1,31 @@
-// Script del ejercicio 2
+// =====================================
+// Script del ejercicio 2 (React)
+// =====================================
 
-// 1. Selección
-const btnContar = document.querySelector("#btnContar");
-const btnReset = document.querySelector("#btnReset");
-const texto = document.querySelector("#contadorTexto");
+function App() {
 
-// 2. Estado
-let contador = 0;
+  // 1. Estado 
+  const [contador, setContador] = React.useState(0);
 
-// 3. Función
-function actualizarTexto() {
-  texto.textContent = `Clics: ${contador}`;
+  // 2. Función para actualizar texto
+  function incrementar() {
+    setContador(contador + 1);
+  }
+
+  function resetear() {
+    setContador(0);
+  }
+
+  // 3. Texto + botones con eventos
+  return (
+    <div>
+      <p>Clics: {contador}</p>
+
+      <button onClick={incrementar}>Contar clics</button>
+      <button onClick={resetear}>Reset</button>
+    </div>
+  );
 }
 
-// 4. Eventos
-btnContar.addEventListener("click", () => {
-  contador++;
-  actualizarTexto();
-});
-
-btnReset.addEventListener("click", () => {
-  contador = 0;
-  actualizarTexto();
-});
-
-// 5. Inicialización
-actualizarTexto();
+// 4. Componente en DOM
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
