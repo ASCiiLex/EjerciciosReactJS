@@ -70,5 +70,5 @@ function App() {
   );
 }
 
-// 7. Montaje del componente en el DOM
+// 7. Componente en el DOM
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
