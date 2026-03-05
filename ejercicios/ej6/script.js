@@ -1,58 +1,54 @@
-// Script del ejercicio 6
+// =====================================
+// Script del ejercicio 6 (React)
+// =====================================
 
-// 1. Selección
-const pantalla = document.querySelector("#pantalla");
-const btnInicio = document.querySelector("#inicio");
-const btnPausa = document.querySelector("#pausa");
-const btnReiniciar = document.querySelector("#reiniciar");
+function App() {
 
-// 2. Estado
-let segundos = 0;
-let intervalo = null;
+  // 1. Estado: segundos totales y referencia al intervalo
+  const [segundos, setSegundos] = React.useState(0);
+  const intervaloRef = React.useRef(null);
 
-// 3. Formatear tiempo
-function formatearTiempo(seg) {
-  const h = String(Math.floor(seg / 3600)).padStart(2, "0");
-  const m = String(Math.floor((seg % 3600) / 60)).padStart(2, "0");
-  const s = String(seg % 60).padStart(2, "0");
-  return `${h}:${m}:${s}`;
+  // 2. Formatear tiempo
+  function formatearTiempo(seg) {
+    const h = String(Math.floor(seg / 3600)).padStart(2, "0");
+    const m = String(Math.floor((seg % 3600) / 60)).padStart(2, "0");
+    const s = String(seg % 60).padStart(2, "0");
+    return `${h}:${m}:${s}`;
+  }
+
+  // 3. Iniciar temporizador
+  function iniciar() {
+    if (intervaloRef.current) return; // evitar múltiples intervalos
+
+    intervaloRef.current = setInterval(() => {
+      setSegundos((prev) => prev + 1);
+    }, 1000);
+  }
+
+  // 4. Pausar temporizador
+  function pausar() {
+    clearInterval(intervaloRef.current);
+    intervaloRef.current = null;
+  }
+
+  // 5. Reiniciar temporizador
+  function reiniciar() {
+    clearInterval(intervaloRef.current);
+    intervaloRef.current = null;
+    setSegundos(0);
+  }
+
+  // 6. Render del temporizador y botones
+  return (
+    <div>
+      <h2>{formatearTiempo(segundos)}</h2>
+
+      <button onClick={iniciar}>Iniciar</button>
+      <button onClick={pausar}>Pausar</button>
+      <button onClick={reiniciar}>Reiniciar</button>
+    </div>
+  );
 }
 
-// 4. Actualizar pantalla
-function actualizarPantalla() {
-  pantalla.textContent = formatearTiempo(segundos);
-}
-
-// 5. Iniciar
-btnInicio.addEventListener("click", () => {
-
-  if (intervalo) return;
-
-  intervalo = setInterval(() => {
-    segundos++;
-    actualizarPantalla();
-  }, 1000);
-
-});
-
-// 6. Pausar
-btnPausa.addEventListener("click", () => {
-
-  clearInterval(intervalo);
-  intervalo = null;
-
-});
-
-// 7. Reiniciar
-btnReiniciar.addEventListener("click", () => {
-
-  clearInterval(intervalo);
-  intervalo = null;
-
-  segundos = 0;
-  actualizarPantalla();
-
-});
-
-// 8. Inicialización
-actualizarPantalla();
+// 7. componente en DOM
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
