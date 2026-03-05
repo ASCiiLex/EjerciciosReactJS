@@ -1,0 +1,239 @@
+/* =========================
+   BASE
+========================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+
+  margin: 0;
+  padding: 2rem;
+
+  background: #f7f7f7;
+  color: #333;
+
+  line-height: 1.6;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* LOGO */
+
+.logo {
+  max-width: 220px;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto 1rem auto;
+}
+
+/* TITULO */
+
+h1 {
+  margin: 0;
+  color: #222;
+}
+
+/* =========================
+   CONTENIDO
+========================= */
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* TEXTO */
+
+p {
+  max-width: 700px;
+  margin: 1rem auto;
+  font-size: 1.05rem;
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+input,
+textarea {
+  width: 100%;
+  max-width: 420px;
+
+  padding: 0.6rem 0.8rem;
+  margin: 0.5rem auto;
+
+  border-radius: 6px;
+  border: 1px solid #ccc;
+
+  font-size: 1rem;
+}
+
+/* =========================
+   BOTONES
+========================= */
+
+button {
+  padding: 0.5rem 1rem;
+  margin: 0.4rem;
+
+  border-radius: 6px;
+  border: 1px solid #ccc;
+
+  background: white;
+  cursor: pointer;
+
+  font-size: 0.95rem;
+
+  transition: all 0.15s ease;
+}
+
+button:hover {
+  background: #0077cc;
+  color: white;
+  border-color: #0077cc;
+}
+
+/* =========================
+   LISTAS
+========================= */
+
+ul {
+  list-style: none;
+  padding: 0;
+
+  max-width: 600px;
+  margin: 1rem auto;
+}
+
+ul li {
+  background: white;
+
+  margin: 0.4rem 0;
+  padding: 0.6rem 0.8rem;
+
+  border-radius: 6px;
+  border: 1px solid #ddd;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+ul li:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+
+/* texto de tareas */
+
+li span {
+  flex: 1;
+  text-align: left;
+}
+
+/* =========================
+   BOTON VOLVER
+========================= */
+
+.volver {
+  display: block;
+  margin-top: 2rem;
+
+  text-decoration: none;
+  color: #0077cc;
+  font-weight: 600;
+}
+
+.volver:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+  text-align: center;
+  margin-top: 3rem;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+/* MOBILE */
+
+@media (max-width: 480px) {
+
+  body {
+    padding: 1.2rem;
+  }
+
+  .logo {
+    max-width: 160px;
+  }
+
+  button {
+    width: 100%;
+    max-width: 300px;
+  }
+
+}
+
+/* TABLET */
+
+@media (min-width: 481px) and (max-width: 768px) {
+
+  .logo {
+    max-width: 180px;
+  }
+
+}
+
+/* TABLET HORIZONTAL */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+
+  main {
+    max-width: 680px;
+  }
+
+}
+
+/* DESKTOP */
+
+@media (min-width: 1025px) {
+
+  main {
+    max-width: 720px;
+  }
+
+}
+
+/* DESKTOP XL */
+
+@media (min-width: 1440px) {
+
+  main {
+    max-width: 800px;
+  }
+
+}
