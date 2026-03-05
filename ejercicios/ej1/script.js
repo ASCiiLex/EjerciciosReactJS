@@ -1,18 +1,27 @@
-// Script del ejercicio 1 //
+// ===============================
+// Script del ejercicio 1 (React)
+// ===============================
 
-// 1. Selección 
-const btnColor = document.querySelector("#btnColor");
+function App() {
 
-// 2. Función pura
-function generarColorAleatorio() {
-  return "#" + Math.floor(Math.random() * 16777215).toString(16);
+  // 1. Función pura
+  function generarColorAleatorio() {
+    return "#" + Math.floor(Math.random() * 16777215).toString(16);
+  }
+
+  // 2. Manipulación del DOM (cambiar color)
+  function cambiarColorFondo() {
+    const color = generarColorAleatorio();
+    document.body.style.backgroundColor = color;
+  }
+
+  // 3. Botón
+  return (
+    <button onClick={cambiarColorFondo}>
+      Cambiar color
+    </button>
+  );
 }
 
-// 3. DOM
-function cambiarColorFondo() {
-  const color = generarColorAleatorio();
-  document.body.style.backgroundColor = color;
-}
-
-// 4. Evento
-btnColor.addEventListener("click", cambiarColorFondo);
+// 4. Componente en DOM
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);

@@ -17,15 +17,22 @@
     <p>Crea una página con un botón que diga 'Cambiar color'. Cada vez que el usuario haga clic, el fondo debe cambiar a un color aleatorio.</p>
 
     <p>Pulsa el botón para cambiar el color de fondo.</p>
-    <button id="btnColor">Cambiar color</button>
 
+    <!-- React se montará aquí -->
+    <div id="root"></div>
   </main>
 
   <footer>
     <a class="volver" href="../../index.html">← Volver al índice</a>
-    <p>Proyecto realizado por Alejandro Sánchez Cuétara— <a href="https://github.com/tuusuario" target="_blank">GitHub</a></p>
+    <p>Proyecto realizado por Alejandro Sánchez Cuétara — <a href="https://github.com/tuusuario" target="_blank">GitHub</a></p>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- React desde CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Tu script React -->
+  <script type="text/babel" src="script.js"></script>
 </body>
 </html>
