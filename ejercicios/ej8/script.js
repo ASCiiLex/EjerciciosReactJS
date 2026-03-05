@@ -1,22 +1,34 @@
-// Script del ejercicio 8
+// =====================================
+// Script del ejercicio 8 (React)
+// =====================================
 
-const textarea = document.querySelector("textarea");
-const palabras = document.querySelector("#palabras");
-const caracteres = document.querySelector("#caracteres");
+function App() {
 
-function contar() {
+  // 1. Estado: texto del textarea
+  const [texto, setTexto] = React.useState("");
 
-  const texto = textarea.value.trim();
-
+  // 2. Cálculo de caracteres (sin espacios ni saltos)
   const numCaracteres = texto.replace(/\s/g, "").length;
 
-  const numPalabras = texto === "" ? 0 : texto.split(/\s+/).length;
+  // 3. Cálculo de palabras
+  const textoTrim = texto.trim();
+  const numPalabras = textoTrim === "" ? 0 : textoTrim.split(/\s+/).length;
 
-  palabras.textContent = `Palabras: ${numPalabras}`;
-  caracteres.textContent = `Caracteres: ${numCaracteres}`;
+  // 4. Render: textarea + contadores
+  return (
+    <div>
+      <textarea
+        rows="6"
+        placeholder="Escribe tu texto aquí..."
+        value={texto}
+        onChange={(e) => setTexto(e.target.value)}
+      ></textarea>
 
+      <p>Palabras: {numPalabras}</p>
+      <p>Caracteres: {numCaracteres}</p>
+    </div>
+  );
 }
 
-textarea.addEventListener("input", contar);
-
-contar();
+// 5. componente en DOM
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);

@@ -8,25 +8,38 @@
 <body>
 
   <header>
-    <a href="../../index.html"><img src="../../assets/img/CB_-_Logo_-_Horizontal_2_f6282ffe.png" alt="Logo" class="logo"></a>
+    <a href="../../index.html">
+      <img src="../../assets/img/CB_-_Logo_-_Horizontal_2_f6282ffe.png" alt="Logo" class="logo">
+    </a>
     <h1>Ejercicios de JavaScript</h1>
     <a class="volver" href="../../index.html">← Volver al índice</a>
   </header>
 
   <main>
-    <p>Crea una lista de tareas con checkbox y almacenamiento en localStorage. Debe permitir añadir, marcar como completada y limpiar tareas.</p>
-    <input id="tareaInput" type="text" placeholder="Nueva tarea">
-    <button id="agregar">Agregar</button>
-    <button id="limpiar">Limpiar completadas</button>
+    <p>
+      Crea una lista de tareas con checkbox y almacenamiento en localStorage. 
+      Debe permitir añadir, marcar como completada y limpiar tareas.
+    </p>
 
-    <ul id="listaTareas"></ul>
+    <!-- React se montará aquí -->
+    <div id="root"></div>
   </main>
 
   <footer>
     <a class="volver" href="../../index.html">← Volver al índice</a>
-    <p>Proyecto realizado por Alejandro Sánchez Cuétara— <a href="https://github.com/tuusuario" target="_blank">GitHub</a></p>
+    <p>
+      Proyecto realizado por Alejandro Sánchez Cuétara — 
+      <a href="https://github.com/tuusuario" target="_blank">GitHub</a>
+    </p>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- React desde CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Tu script React -->
+  <script type="text/babel" src="script.js"></script>
+
 </body>
 </html>

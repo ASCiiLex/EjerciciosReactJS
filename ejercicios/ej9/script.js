@@ -1,119 +1,93 @@
-// Script del ejercicio 9
+// =====================================
+// Script del ejercicio 9 (React)
+// =====================================
 
-// 1. Selección de elementos
-const input = document.querySelector("#tareaInput");
-const btnAgregar = document.querySelector("#agregar");
-const btnLimpiar = document.querySelector("#limpiar");
-const lista = document.querySelector("#listaTareas");
+function App() {
 
-// 2. Estado inicial
-let tareas = JSON.parse(localStorage.getItem("tareas")) || [];
-
-// 3. Guardar en localStorage
-function guardar() {
-  localStorage.setItem("tareas", JSON.stringify(tareas));
-}
-
-// 4. Crear elemento DOM
-function crearElemento(tarea) {
-
-  const li = document.createElement("li");
-
-  const checkbox = document.createElement("input");
-  checkbox.type = "checkbox";
-  checkbox.checked = tarea.completada;
-
-  const texto = document.createElement("span");
-  texto.textContent = tarea.texto;
-
-  if (tarea.completada) {
-    texto.style.textDecoration = "line-through";
-  }
-
-  checkbox.addEventListener("change", () => {
-
-    tarea.completada = checkbox.checked;
-
-    texto.style.textDecoration = checkbox.checked
-      ? "line-through"
-      : "none";
-
-    guardar();
-
+  // 1. Estado inicial desde localStorage
+  const [tareas, setTareas] = React.useState(() => {
+    return JSON.parse(localStorage.getItem("tareas")) || [];
   });
 
-  li.appendChild(checkbox);
-  li.appendChild(texto);
+  const [texto, setTexto] = React.useState("");
 
-  return li;
-}
+  // 2. Guardar en localStorage
+  React.useEffect(() => {
+    localStorage.setItem("tareas", JSON.stringify(tareas));
+  }, [tareas]);
 
-// 5. Renderizar lista
-function render() {
+  // 3. Añadir tarea con validaciones
+  function agregarTarea() {
+    const t = texto.trim();
 
-  lista.innerHTML = "";
+    if (t === "") {
+      alert("La tarea no puede estar vacía.");
+      return;
+    }
 
-  tareas.forEach(tarea => {
-    lista.appendChild(crearElemento(tarea));
-  });
+    if (t.length > 60) {
+      alert("La tarea es demasiado larga (máx. 60 caracteres).");
+      return;
+    }
 
-}
+    if (tareas.some((x) => x.texto === t)) {
+      alert("Esa tarea ya existe.");
+      return;
+    }
 
-// 6. Añadir tarea
-function agregarTarea() {
-
-  const texto = input.value.trim();
-
-  if (texto === "") {
-    alert("La tarea no puede estar vacía.");
-    return;
+    const nueva = { texto: t, completada: false };
+    setTareas([...tareas, nueva]);
+    setTexto("");
   }
 
-  if (texto.length > 60) {
-    alert("La tarea es demasiado larga (máx. 60 caracteres).");
-    return;
+  // 4. Marcar tarea como completada
+  function toggleCompletada(index) {
+    const nuevas = tareas.map((t, i) =>
+      i === index ? { ...t, completada: !t.completada } : t
+    );
+    setTareas(nuevas);
   }
 
-  if (tareas.some(t => t.texto === texto)) {
-    alert("Esa tarea ya existe.");
-    return;
+  // 5. Limpiar tareas completadas
+  function limpiarCompletadas() {
+    setTareas(tareas.filter((t) => !t.completada));
   }
 
-  const nueva = {
-    texto,
-    completada: false
-  };
+  // 6. Render: input, botones y lista
+  return (
+    <div>
+      <input
+        type="text"
+        placeholder="Nueva tarea"
+        value={texto}
+        onChange={(e) => setTexto(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && agregarTarea()}
+      />
 
-  tareas.push(nueva);
+      <button onClick={agregarTarea}>Agregar</button>
+      <button onClick={limpiarCompletadas}>Limpiar completadas</button>
 
-  guardar();
-  render();
-
-  input.value = "";
-  input.focus();
-
+      <ul>
+        {tareas.map((tarea, index) => (
+          <li key={index}>
+            <input
+              type="checkbox"
+              checked={tarea.completada}
+              onChange={() => toggleCompletada(index)}
+            />
+            <span
+              style={{
+                textDecoration: tarea.completada ? "line-through" : "none",
+              }}
+            >
+              {tarea.texto}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
-// 7. Limpiar tareas completadas
-function limpiarCompletadas() {
-
-  tareas = tareas.filter(t => !t.completada);
-
-  guardar();
-  render();
-
-}
-
-// 8. Eventos
-btnAgregar.addEventListener("click", agregarTarea);
-
-btnLimpiar.addEventListener("click", limpiarCompletadas);
-
-input.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    agregarTarea();
-  }
-});
-
-// 9. Inicialización
-render();
+// 7. Componente en DOM
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
