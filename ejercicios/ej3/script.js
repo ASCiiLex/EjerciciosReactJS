@@ -1,70 +1,74 @@
-// Script del ejercicio 3
+// =====================================
+// Script del ejercicio 3 (React)
+// =====================================
 
-// 1. Selección
-const input = document.querySelector("#textoInput");
-const btnAgregar = document.querySelector("#btnAgregar");
-const btnReset = document.querySelector("#btnReset");
-const lista = document.querySelector("#lista");
+function App() {
 
-// 2. Crear elemento de lista
-function crearElemento(texto) {
+  // 1. Estado: lista de elementos + texto del input
+  const [texto, setTexto] = React.useState("");
+  const [lista, setLista] = React.useState([]);
 
-  const li = document.createElement("li");
+  // 2. Función pura: validar texto
+  function validarTexto(t) {
+    if (t.trim() === "") {
+      alert("Escribe algo antes de agregar.");
+      return false;
+    }
+    if (t.length > 50) {
+      alert("El texto es demasiado largo (máx. 50 caracteres).");
+      return false;
+    }
+    return true;
+  }
 
-  const span = document.createElement("span");
-  span.textContent = texto;
+  // 3. Agregar elemento
+  function agregarElemento() {
+    if (!validarTexto(texto)) return;
 
-  const btnEliminar = document.createElement("button");
-  btnEliminar.textContent = "Eliminar";
+    setLista([...lista, texto]);
+    setTexto("");
+  }
 
-  btnEliminar.addEventListener("click", () => {
-    li.remove();
-  });
+  // 4. Eliminar un elemento concreto
+  function eliminarElemento(index) {
+    setLista(lista.filter((_, i) => i !== index));
+  }
 
-  li.appendChild(span);
-  li.appendChild(btnEliminar);
+  // 5. Limpiar lista completa
+  function limpiarLista() {
+    if (lista.length === 0) return;
 
-  return li;
+    if (confirm("¿Seguro que quieres borrar toda la lista?")) {
+      setLista([]);
+    }
+  }
+
+  // 6. Render del input, lista y botones
+  return (
+    <div>
+      <input
+        type="text"
+        placeholder="Escribe algo..."
+        value={texto}
+        onChange={(e) => setTexto(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && agregarElemento()}
+      />
+
+      <button onClick={agregarElemento}>Agregar</button>
+
+      <ul>
+        {lista.map((item, index) => (
+          <li key={index}>
+            <span>{item}</span>
+            <button onClick={() => eliminarElemento(index)}>Eliminar</button>
+          </li>
+        ))}
+      </ul>
+
+      <button onClick={limpiarLista}>Borrar todo</button>
+    </div>
+  );
 }
 
-// 3. Agregar elemento
-function agregarElemento() {
-
-  const texto = input.value.trim();
-
-  if (texto === "") {
-    alert("Escribe algo antes de agregar.");
-    return;
-  }
-
-  if (texto.length > 50) {
-    alert("El texto es demasiado largo (máx. 50 caracteres).");
-    return;
-  }
-
-  lista.appendChild(crearElemento(texto));
-
-  input.value = "";
-  input.focus();
-}
-
-// 4. Limpiar lista completa
-function limpiarLista() {
-
-  if (lista.children.length === 0) return;
-
-  if (confirm("¿Seguro que quieres borrar toda la lista?")) {
-    lista.innerHTML = "";
-  }
-}
-
-// 5. Eventos
-btnAgregar.addEventListener("click", agregarElemento);
-
-btnReset.addEventListener("click", limpiarLista);
-
-input.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    agregarElemento();
-  }
-});
+// 7. Montaje del componente en el DOM
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
