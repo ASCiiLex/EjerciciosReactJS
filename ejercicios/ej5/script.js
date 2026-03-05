@@ -1,82 +1,111 @@
-// Script del ejercicio 5
+// =====================================
+// Script del ejercicio 5 (React)
+// =====================================
 
-// 1. Selección
-const num1 = document.querySelector("#num1");
-const num2 = document.querySelector("#num2");
-const resultado = document.querySelector("#resultado");
+function App() {
 
-// 2. Obtener valores
-function obtenerValores() {
+  // 1. Estado: valores numéricos y resultado
+  const [num1, setNum1] = React.useState("");
+  const [num2, setNum2] = React.useState("");
+  const [resultado, setResultado] = React.useState("Resultado:");
 
-  if (num1.value === "" || num2.value === "") {
-    resultado.textContent = "Error: completa ambos campos.";
-    return null;
+  // 2. Obtener valores (equivalente a tu función original)
+  function obtenerValores() {
+    if (num1 === "" || num2 === "") {
+      setResultado("Error: completa ambos campos.");
+      return null;
+    }
+
+    const a = Number(num1);
+    const b = Number(num2);
+
+    if (isNaN(a) || isNaN(b)) {
+      setResultado("Error: introduce números válidos.");
+      return null;
+    }
+
+    return [a, b];
   }
 
-  const a = Number(num1.value);
-  const b = Number(num2.value);
-
-  if (isNaN(a) || isNaN(b)) {
-    resultado.textContent = "Error: introduce números válidos.";
-    return null;
+  // 3. Mostrar resultado
+  function mostrarResultado(valor) {
+    setResultado(`Resultado: ${valor}`);
   }
 
-  return [a, b];
+  // 4. Función calculadora
+  function calcular(operacion) {
+    const valores = obtenerValores();
+    if (!valores) return;
+
+    const [a, b] = valores;
+
+    if (operacion === "dividir" && b === 0) {
+      mostrarResultado("Error: división por cero");
+      return;
+    }
+
+    let resultadoOperacion;
+
+    switch (operacion) {
+      case "sumar":
+        resultadoOperacion = a + b;
+        break;
+      case "restar":
+        resultadoOperacion = a - b;
+        break;
+      case "multiplicar":
+        resultadoOperacion = a * b;
+        break;
+      case "dividir":
+        resultadoOperacion = a / b;
+        break;
+    }
+
+    mostrarResultado(resultadoOperacion);
+  }
+
+  // 5. Reset con tecla Escape
+  function manejarTeclas(e) {
+    if (e.key === "Escape") {
+      setNum1("");
+      setNum2("");
+      setResultado("Resultado:");
+    }
+    if (e.key === "Enter") {
+      calcular("sumar");
+    }
+  }
+
+  // 6. Render: inputs, botones y resultado
+  return (
+    <div>
+      <input
+        type="number"
+        placeholder="Número 1"
+        value={num1}
+        onChange={(e) => setNum1(e.target.value)}
+        onKeyDown={manejarTeclas}
+      />
+
+      <input
+        type="number"
+        placeholder="Número 2"
+        value={num2}
+        onChange={(e) => setNum2(e.target.value)}
+        onKeyDown={manejarTeclas}
+      />
+
+      <div>
+        <button onClick={() => calcular("sumar")}>Sumar</button>
+        <button onClick={() => calcular("restar")}>Restar</button>
+        <button onClick={() => calcular("multiplicar")}>Multiplicar</button>
+        <button onClick={() => calcular("dividir")}>Dividir</button>
+      </div>
+
+      <p>{resultado}</p>
+    </div>
+  );
 }
 
-// 3. Mostrar resultado
-function mostrarResultado(valor) {
-  resultado.textContent = `Resultado: ${valor}`;
-}
-
-// 4. Función calculadora
-function calcular(operacion) {
-
-  const valores = obtenerValores();
-  if (!valores) return;
-
-  const [a, b] = valores;
-
-  if (operacion === "dividir" && b === 0) {
-    mostrarResultado("Error: división por cero");
-    return;
-  }
-
-  let resultadoOperacion;
-
-  switch (operacion) {
-
-    case "sumar":
-      resultadoOperacion = a + b;
-      break;
-
-    case "restar":
-      resultadoOperacion = a - b;
-      break;
-
-    case "multiplicar":
-      resultadoOperacion = a * b;
-      break;
-
-    case "dividir":
-      resultadoOperacion = a / b;
-      break;
-
-  }
-
-  mostrarResultado(resultadoOperacion);
-
-}
-
-// 5. Eventos
-document.querySelector("#sumar").addEventListener("click", () => calcular("sumar"));
-document.querySelector("#restar").addEventListener("click", () => calcular("restar"));
-document.querySelector("#multiplicar").addEventListener("click", () => calcular("multiplicar"));
-document.querySelector("#dividir").addEventListener("click", () => calcular("dividir"));
-
-// Permitir calcular con Enter
-[num1, num2].forEach(input => {
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") calcular("sumar");
-  });
-});
+// 7. Montaje del componente en el DOM
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
